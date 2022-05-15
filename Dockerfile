@@ -8,3 +8,5 @@ RUN python -m pip install --upgrade pip \
     && python -m pip install chia-dev-tools
 
 ENV CHIA_ROOT="/home/jovyan/.chia/testnet"
+
+COPY code/*.py /home/jovyan

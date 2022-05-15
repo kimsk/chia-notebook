@@ -18,7 +18,7 @@ ipython_config.py
 .bash_history
 .cache
 .chia
-
+__pycache__
 # Remove previous ipynb_checkpoints
 #   git rm -r .ipynb_checkpoints/
 
