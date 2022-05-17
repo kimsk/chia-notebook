@@ -9,4 +9,5 @@ RUN python -m pip install --upgrade pip \
 
 ENV CHIA_ROOT="/home/jovyan/.chia/testnet"
 
-COPY code/*.py /home/jovyan
+RUN mkdir /chia-utils
+COPY code/*.py /chia-utils
