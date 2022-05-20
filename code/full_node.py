@@ -1,3 +1,5 @@
+from typing import Optional
+
 from chia.util.config import load_config
 from chia.util.default_root import DEFAULT_ROOT_PATH
 from chia.rpc.full_node_rpc_client import FullNodeRpcClient
@@ -12,13 +14,20 @@ genesis_challenge = config["farmer"]["network_overrides"]["constants"][selected_
 self_hostname = config["self_hostname"] # localhost
 full_node_rpc_port = config["full_node"]["rpc_port"] # 8555
 
-async def get_blockchain_state_async():
-    try:
+full_node_client: Optional[FullNodeRpcClient] = None
+
+
+async def get_full_node_client_async():
+    global full_node_client
+    if full_node_client == None:
         full_node_client = await FullNodeRpcClient.create(
-                self_hostname, uint16(full_node_rpc_port), DEFAULT_ROOT_PATH, config
-            )
-        state = await full_node_client.get_blockchain_state()
-        return state
-    finally:
+            self_hostname, uint16(full_node_rpc_port), DEFAULT_ROOT_PATH, config
+        )
+    return full_node_client
+
+async def close_full_node_client_async():
+    global full_node_client
+    if full_node_client != None:
         full_node_client.close()
         await full_node_client.await_closed()
+    full_node_client = None
