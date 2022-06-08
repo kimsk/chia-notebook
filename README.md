@@ -13,7 +13,8 @@ docker run -it --rm -p 8888:8888 -v ${HOME}/kimsk/chia-concepts:/home/jovyan -v 
 ```
 
 ## Run and Grant jovyan passwordless sudo rights.
-```sh
+### [What is the password for using "sudo apt-get install" command?](https://github.com/jupyter/docker-stacks/issues/949)
+```h
 docker run -it --rm -e GRANT_SUDO=yes --user root -p 8888:8888 -v ${HOME}/kimsk/chia-concepts:/home/jovyan -v ${HOME}/.chia/testnet:/home/jovyan/.chia/testnet karlkim/chia-notebook
 ```
 
