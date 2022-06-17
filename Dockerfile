@@ -5,6 +5,7 @@ ENV JUPYTER_ENABLE_LAB=yes
 
 USER root
 
+# install utils
 RUN apt-get update && \
     apt-get install -y curl && \
     apt-get install -y jq
@@ -39,11 +40,10 @@ RUN python -m pip install --upgrade pip && \
     python -m pip install pytest && \
     python -m pip install jupyterlab_sos
 
-ENV CHIA_ROOT="/.chia"
-RUN mkdir /chia-utils
-COPY code/*.* /chia-utils
-RUN chmod +x  /chia-utils/start-chia-notebook.ps1
-RUN mkdir /.chia && \
-    mkdir /.chia/config
+ENV CHIA_ROOT="/root/.chia"
+RUN mkdir /chia-notebook
+COPY code/*.* /chia-notebook
+RUN chmod +x  /chia-notebook/start-chia-notebook.ps1
+# RUN sudo usermod -a -G root jovyan
 
-CMD ["/chia-utils/start-chia-notebook.ps1"]
+CMD ["/chia-notebook/start-chia-notebook.ps1"]

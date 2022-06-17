@@ -7,7 +7,7 @@ from chia.util.ints import uint16
 
 # config/config.yaml
 config = load_config(DEFAULT_ROOT_PATH, "config.yaml")
-config["self_hostname"] = "host.docker.internal"
+# config["self_hostname"] = "host.docker.internal"
 selected_network = config["selected_network"]
 genesis_challenge = config["farmer"]["network_overrides"]["constants"][selected_network]["GENESIS_CHALLENGE"]
 

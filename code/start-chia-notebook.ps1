@@ -1,30 +1,19 @@
 #! /usr/bin/pwsh
 
-# "/.chia"
 Write-Host $env:CHIA_ROOT
 
-Install-Module powershell-yaml -Force
+chia init
+chia configure -t true
 
-$chia = "/.chia"
+rm -rf "$($env:CHIA_ROOT)/db"
+ln -s "$HOME/full_node_db" "$($env:CHIA_ROOT)/db"
 
-$externalChia = "$HOME/.chia-external"
+# https://github.com/Chia-Network/chia-blockchain/issues/1535
+# ipV6 not enabled
+$configFile = "$($env:CHIA_ROOT)/config/config.yaml"
+$configYaml = Get-Content $configFile
+$configYaml -replace "localhost", "127.0.0.1"
+| Out-File -Force $configFile
 
-ln -s ${externalChia}/db $chia/db
-ln -s ${externalChia}/wallet $chia/wallet
-ln -s ${externalChia}/config/ssl $chia/config/ssl
-
-cp $externalChia/config/config.yaml $chia/config
-
-$config = 
-    Get-Content $chia/config/config.yaml
-    | ConvertFrom-Yaml
-
-# change docker localhost
-$config.self_hostname = "host.docker.internal"
-
-$config
-| ConvertTo-Yaml
-| Out-File $chia/config/config.yaml
-
-/bin/bash
-# start-notebook.sh
+# /bin/bash
+start-notebook.sh
