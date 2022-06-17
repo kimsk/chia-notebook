@@ -2,7 +2,6 @@ FROM jupyter/scipy-notebook
 LABEL Karlkim Suwanmongkol <karlkim@gmail.com>:
 
 ENV JUPYTER_ENABLE_LAB=yes
-ENV CHIA_ROOT="/home/jovyan/.chia/testnet"
 
 USER root
 
@@ -35,9 +34,16 @@ RUN dotnet tool install Microsoft.dotnet-interactive --tool-path /usr/bin
 RUN dotnet interactive jupyter install
 
 RUN python -m pip install --upgrade pip && \
-    python -m pip install chia-dev-tools && \
+    python -m pip install chia-blockchain && \
+    python -m pip install chia-dev-tools --no-deps && \
+    python -m pip install pytest && \
     python -m pip install jupyterlab_sos
 
-
+ENV CHIA_ROOT="/.chia"
 RUN mkdir /chia-utils
-COPY code/*.py /chia-utils
+COPY code/*.* /chia-utils
+RUN chmod +x  /chia-utils/start-chia-notebook.ps1
+RUN mkdir /.chia && \
+    mkdir /.chia/config
+
+CMD ["/chia-utils/start-chia-notebook.ps1"]

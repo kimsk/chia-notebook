@@ -4,17 +4,14 @@ docker build -t karlkim/chia-notebook .
 ```
 
 # Run
-```sh
-docker run -it --rm -p 8888:8888 -v "${HOME}/kimsk/chia-concepts":/home/jovyan -v "${CHIA_ROOT}":/home/jovyan/.chia/testnet karlkim/chia-notebook
-```
 
 ```PowerShell
-docker run -it --rm -p 8888:8888 -v ${HOME}/kimsk/chia-concepts:/home/jovyan -v ${env:CHIA_ROOT}:/home/jovyan/.chia/testnet karlkim/chia-notebook
+docker run -it --rm -p 8888:8888 -v ${HOME}/kimsk/chia-concepts:/home/jovyan -v ${env:CHIA_ROOT}:/home/jovyan/.chia-external karlkim/chia-notebook
 ```
 
 ## Run and Grant jovyan passwordless sudo rights.
 ```PowerShell
-docker run -it --rm -e GRANT_SUDO=yes --user root -p 8888:8888 -v ${HOME}/kimsk/chia-concepts:/home/jovyan -v ${env:CHIA_ROOT}:/home/jovyan/.chia/testnet karlkim/chia-notebook
+docker run -it --rm -e GRANT_SUDO=yes --user root -p 8888:8888 -v ${HOME}/kimsk/chia-concepts:/home/jovyan -v ${env:CHIA_ROOT}:/home/jovyan/.chia-external karlkim/chia-notebook
 ```
 
 ## curl
