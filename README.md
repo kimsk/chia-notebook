@@ -76,3 +76,4 @@ full_node_rpc_port = config["full_node"]["rpc_port"] # 8555
 - [What is the password for using "sudo apt-get install" command?](https://github.com/jupyter/docker-stacks/issues/949)
 - [Using .NET notebooks with Jupyter Notebook / JupyterLab](https://github.com/dotnet/interactive/blob/main/docs/NotebookswithJupyter.md#using-net-notebooks-with-jupyter-notebook--jupyterlab)
 - [How to Automatically Import Your Favorite Libraries into IPython or a Jupyter Notebook](https://towardsdatascience.com/how-to-automatically-import-your-favorite-libraries-into-ipython-or-a-jupyter-notebook-9c69d89aa343)
+- [Common Jupyter Lab Keyboard Shortcuts](https://gist.github.com/discdiver/9e00618756d120a8c9fa344ac1c375ac)
