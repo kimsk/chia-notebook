@@ -1,6 +1,7 @@
 # others
 import json
 import sys
+import time
 
 # chia
 from blspy import (PrivateKey, AugSchemeMPL, G1Element, G2Element)
@@ -15,17 +16,21 @@ from chia.types.coin_spend import CoinSpend
 from chia.types.condition_opcodes import ConditionOpcode
 from chia.types.spend_bundle import SpendBundle
 from chia.util.bech32m import decode_puzzle_hash, encode_puzzle_hash
+from chia.util.byte_types import hexstr_to_bytes
 from chia.util.config import load_config
 from chia.util.default_root import DEFAULT_ROOT_PATH
 from chia.util.hash import std_hash
 from chia.util.ints import uint16
 from chia.wallet.puzzles import p2_delegated_puzzle_or_hidden_puzzle
 from chia.wallet.puzzles.p2_delegated_puzzle_or_hidden_puzzle import (
-    DEFAULT_HIDDEN_PUZZLE_HASH,
+    calculate_synthetic_offset,
+    calculate_synthetic_public_key,
     calculate_synthetic_secret_key,
-    puzzle_for_pk,
+    DEFAULT_HIDDEN_PUZZLE_HASH,
     puzzle_for_conditions,
-    solution_for_conditions,
+    puzzle_for_pk,
+    puzzle_hash_for_synthetic_public_key,
+    solution_for_conditions
 )
 
 from clvm_tools.binutils import disassemble
@@ -53,6 +58,18 @@ async def get_wallet_client() -> WalletRpcClient:
     )
     return wallet_client
 
+async def get_synced_wallet_client(fingerprint) -> WalletRpcClient:
+    wallet_client = await get_wallet_client()
+    await wallet_client.log_in(fingerprint)
+    fingerprint = await wallet_client.get_logged_in_fingerprint()
+
+    sync_status = False
+    while not sync_status:
+        sync_status = await wallet_client.get_synced()
+        time.sleep(5)
+
+    return wallet_client
+
 async def close_rpc_client(client: RpcClient):
     client.close()
     await client.await_closed()
@@ -61,3 +78,4 @@ async def close_rpc_client(client: RpcClient):
 sys.path.insert(0, "/Users/karlkim/kimsk/chia-concepts/shared")
 from utils import (load_program, print_program, print_puzzle, print_json)
 import singleton_utils
+import wallet_utils
