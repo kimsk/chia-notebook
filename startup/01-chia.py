@@ -15,6 +15,7 @@ from chia.util.config import load_config
 from chia.util.default_root import DEFAULT_ROOT_PATH
 from chia.util.hash import std_hash
 from chia.util.ints import uint16
+from chia.util.json_util import dict_to_json_str
 from chia.wallet.puzzles import p2_delegated_puzzle_or_hidden_puzzle
 from chia.wallet.puzzles.p2_delegated_puzzle_or_hidden_puzzle import (
     calculate_synthetic_offset,
@@ -27,6 +28,6 @@ from chia.wallet.puzzles.p2_delegated_puzzle_or_hidden_puzzle import (
     solution_for_conditions
 )
 
-from clvm_tools.binutils import disassemble
+from clvm_tools.binutils import assemble, disassemble
 from clvm_tools.clvmc import compile_clvm_text
 from clvm.casts import int_to_bytes

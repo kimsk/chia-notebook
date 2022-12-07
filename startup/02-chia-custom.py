@@ -37,6 +37,6 @@ async def close_rpc_client(client: RpcClient):
 
 # kimsk/chia-concepts
 sys.path.insert(0, "/Users/karlkim/kimsk/chia-concepts/shared")
-from utils import (load_program, print_program, print_puzzle, print_json)
+from utils import (load_program, print_program, print_clsp, print_puzzle, print_json)
 import singleton_utils
 import wallet_utils
