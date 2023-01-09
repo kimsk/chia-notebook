@@ -1,5 +1,6 @@
 from blspy import (PrivateKey, AugSchemeMPL, G1Element, G2Element)
 
+from chia.consensus.block_record import BlockRecord
 from chia.consensus.default_constants import DEFAULT_CONSTANTS
 from chia.rpc.full_node_rpc_client import FullNodeRpcClient
 from chia.rpc.rpc_client import RpcClient
