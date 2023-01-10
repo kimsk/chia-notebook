@@ -41,4 +41,4 @@ sys.path.insert(0, "/Users/karlkim/kimsk/chia-concepts/shared")
 from utils import (load_program, print_program, print_clsp, print_puzzle, print_json)
 import singleton_utils
 import wallet_utils
-from decorators import (with_db_connection)
+from decorators import (with_db_connection, with_full_node_rpc_client, with_wallet_rpc_client)
