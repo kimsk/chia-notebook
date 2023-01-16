@@ -31,6 +31,7 @@ from chia.wallet.puzzles.p2_delegated_puzzle_or_hidden_puzzle import (
     puzzle_hash_for_synthetic_public_key,
     solution_for_conditions
 )
+from chia.wallet.trading.offer import Offer
 
 from clvm_tools.binutils import assemble, disassemble
 from clvm_tools.clvmc import compile_clvm_text
