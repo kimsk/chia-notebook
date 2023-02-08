@@ -1,4 +1,5 @@
 # IPython startup directory
+
 ```
 This is the IPython startup directory
 
@@ -13,12 +14,17 @@ with a prefix, e.g.::
     99-last.ipy
 ```
 
-
 `~/.ipython/profile_default/startup`
 
+# Pre-requisite
+
+```sh
+pip install rich
+```
 
 - [00-misc.py](./00-misc.py)
-    - [Rich adds support for Jupyter Notebooks](https://www.willmcgugan.com/blog/tech/post/rich-adds-support-for-jupyter-notebooks/)
+
+  - [Rich adds support for Jupyter Notebooks](https://www.willmcgugan.com/blog/tech/post/rich-adds-support-for-jupyter-notebooks/)
 
 - [01-chia.py](./01-chia.py)
 - [02-chia-custom](./02-chia-custom.py)
