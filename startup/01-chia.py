@@ -1,4 +1,4 @@
-from blspy import (PrivateKey, AugSchemeMPL, G1Element, G2Element)
+from blspy import PrivateKey, AugSchemeMPL, G1Element, G2Element
 
 from chia.consensus.block_record import BlockRecord
 from chia.consensus.default_constants import DEFAULT_CONSTANTS
@@ -29,7 +29,7 @@ from chia.wallet.puzzles.p2_delegated_puzzle_or_hidden_puzzle import (
     puzzle_for_conditions,
     puzzle_for_pk,
     puzzle_hash_for_synthetic_public_key,
-    solution_for_conditions
+    solution_for_conditions,
 )
 from chia.wallet.trading.offer import Offer
 
