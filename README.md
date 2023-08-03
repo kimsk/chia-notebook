@@ -16,6 +16,7 @@ pip install rich
 - [01-chia.py](./startup/01-chia.py)
 - [02-chia-decorators](./startup/02-chia-decorators.py)
 - [03-pretty-chia.py](./startup/03-pretty-chia.py)
+- [04-chia-utils.py](./startup/04-chia-utils.py)
 
 # examples
 

@@ -5,6 +5,7 @@ from chia.consensus.default_constants import DEFAULT_CONSTANTS
 from chia.rpc.full_node_rpc_client import FullNodeRpcClient
 from chia.rpc.rpc_client import RpcClient
 from chia.rpc.wallet_rpc_client import WalletRpcClient
+from chia.types.announcement import Announcement
 from chia.types.blockchain_format.coin import Coin
 from chia.types.blockchain_format.program import Program, INFINITE_COST
 from chia.types.blockchain_format.sized_bytes import bytes32
@@ -20,6 +21,7 @@ from chia.util.default_root import DEFAULT_ROOT_PATH
 from chia.util.hash import std_hash
 from chia.util.ints import uint16, uint32, uint64
 from chia.util.json_util import dict_to_json_str
+from chia.wallet.lineage_proof import LineageProof
 from chia.wallet.puzzles import p2_delegated_puzzle_or_hidden_puzzle
 from chia.wallet.puzzles.p2_delegated_puzzle_or_hidden_puzzle import (
     calculate_synthetic_offset,
@@ -36,3 +38,9 @@ from chia.wallet.trading.offer import Offer
 from clvm_tools.binutils import assemble, disassemble
 from clvm_tools.clvmc import compile_clvm_text
 from clvm.casts import int_to_bytes
+
+import os
+
+CNI_PUZZLES_ROOT = os.path.expanduser(
+    "~/chia-network/chia-blockchain/chia/wallet/puzzles/"
+)

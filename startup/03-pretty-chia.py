@@ -9,6 +9,7 @@ from rich.syntax import Syntax
 from rich.table import Table
 from rich.tree import Tree
 import rich
+
 pretty.install()
 
 from chia.consensus.default_constants import DEFAULT_CONSTANTS
@@ -16,6 +17,8 @@ from chia.types.blockchain_format.program import Program
 from chia.types.coin_spend import CoinSpend
 from chia.types.condition_opcodes import ConditionOpcode
 from chia.util.hash import std_hash
+from clvm_tools.binutils import disassemble
+
 
 def print_clsp(clsp: str, line_numbers=True):
     console = Console()
@@ -65,26 +68,23 @@ def print_conditions(puzzle: Program, solution: Program):
     for c in conditions:
         print_condition(c)
 
+
 def print_coin_spends(coin_spends):
     console = Console()
 
     for cs in coin_spends:
         coin_id = cs.coin.name()
-        console.print(f'\n\n===<{coin_id.hex()}>===')
+        console.print(f"\n\n===<{coin_id.hex()}>===")
         console.print(cs.coin.to_json_dict())
-        conditions = get_conditions(cs.puzzle_reveal.to_program(), cs.solution.to_program())
+        conditions = get_conditions(
+            cs.puzzle_reveal.to_program(), cs.solution.to_program()
+        )
         for c in conditions:
             print_condition(c)
             opcode = ConditionOpcode.from_bytes(c[0])
             if opcode == ConditionOpcode.CREATE_PUZZLE_ANNOUNCEMENT:
-                announcement = std_hash(
-                    cs.coin.puzzle_hash
-                    + c[1]
-                )
-                console.print(f'---<{announcement.hex()}>---')
+                announcement = std_hash(cs.coin.puzzle_hash + c[1])
+                console.print(f"---<{announcement.hex()}>---")
             if opcode == ConditionOpcode.CREATE_COIN_ANNOUNCEMENT:
-                announcement = std_hash(
-                    coin_id
-                    + c[1]
-                )
-                console.print(f'---<{announcement.hex()}>---')
+                announcement = std_hash(coin_id + c[1])
+                console.print(f"---<{announcement.hex()}>---")
