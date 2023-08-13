@@ -63,6 +63,10 @@ def get_puzzle_announcements(coin_spends: List[CoinSpend]) -> List[Announcement]
     return puzzle_announcements
 
 
+### RPC
+
+
+#### Legacy
 async def get_coin_record_by_name(full_node_client, name: bytes32):
     return await full_node_client.get_coin_record_by_name(name)
 
@@ -90,6 +94,72 @@ async def get_coins_in_block(full_node_client, height):
     return result
 
 
-async def fetch_rpc(client, rpc, request):
+#### Using client.fetch
+async def fetch_rpc(client, rpc, request={}):
     response = await client.fetch(rpc, request)
     return response
+
+
+import os
+import pathlib
+from chia.util.config import load_config
+
+testnet_root = pathlib.Path(os.path.expanduser("~/.chia/testnet10"))
+mainnet_root = pathlib.Path(os.path.expanduser("~/.chia/mainnet"))
+
+
+def get_chia_notebook_config(chia_root: Path):
+    chia_config = load_config(chia_root, "config.yaml")
+    self_hostname = chia_config["self_hostname"]
+
+    full_node_rpc_port = chia_config["full_node"]["rpc_port"]
+    wallet_rpc_port = chia_config["wallet"]["rpc_port"]
+
+    selected_network = chia_config["selected_network"]
+
+    genesis_challenge = bytes32.from_hexstr(
+        chia_config["network_overrides"]["constants"][selected_network][
+            "GENESIS_CHALLENGE"
+        ]
+    )
+    address_prefix = chia_config["network_overrides"]["config"][selected_network][
+        "address_prefix"
+    ]
+    return {
+        "chia_root": chia_root,
+        "chia_config": chia_config,
+        "self_hostname": self_hostname,
+        "full_node_rpc_port": full_node_rpc_port,
+        "wallet_rpc_port": wallet_rpc_port,
+        "selected_network": selected_network,
+        "genesis_challenge": genesis_challenge,
+        "address_prefix": address_prefix,
+    }
+
+
+def get_full_node_fetch(config):
+    return with_full_node_rpc_client(
+        config["self_hostname"],
+        config["full_node_rpc_port"],
+        config["chia_root"],
+        config["chia_config"],
+    )(fetch_rpc)
+
+
+def get_wallet_fetch(config):
+    return with_wallet_rpc_client(
+        config["self_hostname"],
+        config["wallet_rpc_port"],
+        config["chia_root"],
+        config["chia_config"],
+    )(fetch_rpc)
+
+
+### Example
+"""
+config = get_chia_notebook_config(testnet_root)
+full_node_fetch = get_full_node_fetch(config)
+wallet_fetch = get_wallet_fetch(config)
+assert (await full_node_fetch('healthz'))['success']
+assert (await wallet_fetch('healthz'))['success']
+"""
