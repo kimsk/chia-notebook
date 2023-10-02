@@ -28,16 +28,20 @@ def show_config():
     print(f"address prefix: {address_prefix}")
 
 
+def show_coin_spend(cs):
+    print(cs.coin.name().hex())
+    print(cs.coin.to_json_dict())
+    print_program(cs.puzzle_reveal.to_program())
+    print_program(cs.solution.to_program())
+
+    if cs.coin.parent_coin_info != bytes32([0] * 32):
+        print_conditions(cs.puzzle_reveal.to_program(), cs.solution.to_program())
+
+
 def show_spend_bundle(sp):
     print(sp.aggregated_signature)
     for cs in sp.coin_spends:
-        print(cs.coin.name().hex())
-        print(cs.coin.to_json_dict())
-        # print_program(cs.puzzle_reveal.to_program())
-        print_program(cs.solution.to_program())
-
-        if cs.coin.parent_coin_info != bytes32([0] * 32):
-            print_conditions(cs.puzzle_reveal.to_program(), cs.solution.to_program())
+        show_coin_spend(cs)
 
 
 def show_offer_spend_bundle(o):
@@ -46,6 +50,13 @@ def show_offer_spend_bundle(o):
 
 def show_offer_valid_spend(o):
     show_spend_bundle(o.to_valid_spend())
+
+
+def show_offer_conditions(o):
+    sp = o.to_spend_bundle()
+    for csp in sp.coin_spends:
+        print(csp.coin.name().hex())
+        print_conditions(csp.puzzle_reveal.to_program(), csp.solution.to_program())
 
 
 def get_puzzle_announcements(coin_spends: List[CoinSpend]) -> List[Announcement]:
@@ -163,3 +174,17 @@ wallet_fetch = get_wallet_fetch(config)
 assert (await full_node_fetch('healthz'))['success']
 assert (await wallet_fetch('healthz'))['success']
 """
+
+
+#### Dexie
+def get_offer_bech32_from_dexie(offer_id, mainnet=True):
+    api_url = (
+        "https://api.dexie.space/v1"
+        if mainnet
+        else "https://api-testnet.dexie.space/v1"
+    )
+    try:
+        response = requests.get(f"{api_url}/offers/{offer_id}")
+        return response.json()["offer"]["offer"]
+    except:
+        return None

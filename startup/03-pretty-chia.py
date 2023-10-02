@@ -49,7 +49,7 @@ def get_conditions(puzzle: Program, solution: Program):
 
 def print_condition(condition):
     console = Console()
-    opcode = ConditionOpcode.from_bytes(condition[0])
+    opcode = ConditionOpcode(condition[0])
     condition_args = ""
     for a in condition[1:]:
         condition_args += f" {disassemble(Program.to(a))}"
@@ -81,7 +81,7 @@ def print_coin_spends(coin_spends):
         )
         for c in conditions:
             print_condition(c)
-            opcode = ConditionOpcode.from_bytes(c[0])
+            opcode = ConditionOpcode(c[0])
             if opcode == ConditionOpcode.CREATE_PUZZLE_ANNOUNCEMENT:
                 announcement = std_hash(cs.coin.puzzle_hash + c[1])
                 console.print(f"---<{announcement.hex()}>---")
